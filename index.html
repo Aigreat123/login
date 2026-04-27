@@ -1,9 +1,9 @@
-```html id="focus1"
+```html id="btn20"
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Quick Multi Tab</title>
+<title>20 Tài Khoản</title>
 
 <style>
 body {
@@ -13,46 +13,58 @@ body {
   font-family:-apple-system;
 }
 
-button {
+.grid {
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:10px;
   padding:20px;
-  font-size:20px;
+}
+
+button {
+  padding:15px;
   border:none;
-  border-radius:12px;
+  border-radius:10px;
   background:#22c55e;
   color:white;
+  font-weight:bold;
 }
 
 .counter {
-  font-size:35px;
-  margin-top:15px;
+  font-size:30px;
+  margin-top:10px;
 }
 </style>
 </head>
 
 <body>
 
-<h2>⚡ Bấm liên tục (không bị văng)</h2>
+<h2>🚀 20 Tài Khoản</h2>
 
-<button onclick="openTab()">BẤM LIÊN TỤC</button>
+<div class="counter">Đã mở: <span id="count">0</span></div>
 
-<div class="counter" id="count">0</div>
+<div class="grid" id="list"></div>
 
 <script>
-let count = 0;
+let total = 0;
 
-function openTab(){
-  count++;
-  document.getElementById("count").innerText = count;
+function openAcc(n){
+  total++;
+  document.getElementById("count").innerText = total;
 
-  const newTab = window.open(
-    "https://6cc.cz?id=" + Date.now(),
+  window.open(
+    "https://6cc.cz?acc=" + n + "&id=" + Date.now(),
     "_blank"
   );
+}
 
-  // cố giữ focus ở tool
-  setTimeout(() => {
-    window.focus();
-  }, 50);
+// tạo 20 nút
+const list = document.getElementById("list");
+
+for(let i=1;i<=20;i++){
+  const btn = document.createElement("button");
+  btn.innerText = i + " tài khoản";
+  btn.onclick = () => openAcc(i);
+  list.appendChild(btn);
 }
 </script>
 
