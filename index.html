@@ -1,9 +1,18 @@
-```html id="btn20"
+```html id="pwa1"
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>20 Tài Khoản</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- tên app -->
+<meta name="apple-mobile-web-app-title" content="ACC TOOL">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<!-- icon -->
+<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/565/565547.png">
+
+<title>ACC TOOL</title>
 
 <style>
 body {
@@ -13,58 +22,29 @@ body {
   font-family:-apple-system;
 }
 
-.grid {
-  display:grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap:10px;
-  padding:20px;
-}
-
 button {
-  padding:15px;
+  padding:20px;
+  font-size:18px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   background:#22c55e;
   color:white;
-  font-weight:bold;
-}
-
-.counter {
-  font-size:30px;
-  margin-top:10px;
+  margin-top:40px;
 }
 </style>
 </head>
 
 <body>
 
-<h2>🚀 20 Tài Khoản</h2>
+<h2>📱 Thêm ra màn hình chính</h2>
 
-<div class="counter">Đã mở: <span id="count">0</span></div>
-
-<div class="grid" id="list"></div>
+<button onclick="showGuide()">THÊM NGAY</button>
 
 <script>
-let total = 0;
-
-function openAcc(n){
-  total++;
-  document.getElementById("count").innerText = total;
-
-  window.open(
-    "https://6cc.cz?acc=" + n + "&id=" + Date.now(),
-    "_blank"
+function showGuide(){
+  alert(
+"👉 Làm nhanh:\n\n1. Bấm nút chia sẻ ⬆️ dưới màn hình\n2. Chọn 'Thêm vào MH chính'\n3. Bấm Add là xong\n\n👉 Tên & icon đã có sẵn 👍"
   );
-}
-
-// tạo 20 nút
-const list = document.getElementById("list");
-
-for(let i=1;i<=20;i++){
-  const btn = document.createElement("button");
-  btn.innerText = i + " tài khoản";
-  btn.onclick = () => openAcc(i);
-  list.appendChild(btn);
 }
 </script>
 
