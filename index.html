@@ -1,9 +1,9 @@
-```html
+```html id="focus1"
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Mobile Tool</title>
+<title>Quick Multi Tab</title>
 
 <style>
 body {
@@ -14,43 +14,45 @@ body {
 }
 
 button {
-  padding:15px;
-  font-size:18px;
+  padding:20px;
+  font-size:20px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   background:#22c55e;
   color:white;
-  margin:10px;
 }
 
-iframe {
-  width:100%;
-  height:80vh;
-  border:none;
-  margin-top:10px;
+.counter {
+  font-size:35px;
+  margin-top:15px;
 }
 </style>
 </head>
 
 <body>
 
-<h2>📱 Tool điện thoại (không bị chặn)</h2>
+<h2>⚡ Bấm liên tục (không bị văng)</h2>
 
-<button onclick="loadPage()">Chạy</button>
+<button onclick="openTab()">BẤM LIÊN TỤC</button>
 
-<div id="count">0</div>
-
-<iframe id="frame"></iframe>
+<div class="counter" id="count">0</div>
 
 <script>
 let count = 0;
 
-function loadPage(){
+function openTab(){
   count++;
   document.getElementById("count").innerText = count;
 
-  document.getElementById("frame").src =
-    "https://6cc.cz?id=" + Date.now();
+  const newTab = window.open(
+    "https://6cc.cz?id=" + Date.now(),
+    "_blank"
+  );
+
+  // cố giữ focus ở tool
+  setTimeout(() => {
+    window.focus();
+  }, 50);
 }
 </script>
 
