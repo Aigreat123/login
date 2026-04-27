@@ -4,68 +4,74 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- iPhone full screen -->
+<!-- iPhone fullscreen -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-<!-- App name -->
-<meta name="apple-mobile-web-app-title" content="ACC">
-
-<!-- Apple-style icon -->
-<link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg">
 
 <title>ACC</title>
 
 <style>
-body {
+*{box-sizing:border-box;}
+
+body{
   margin:0;
-  background: linear-gradient(180deg, #0f172a, #020617);
-  color:white;
-  font-family:-apple-system;
-  display:flex;
-  align-items:center;
-  justify-content:center;
   height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: radial-gradient(circle at top, #1e293b, #020617);
+  font-family:-apple-system;
+  color:white;
 }
 
-/* iOS style card */
-.card {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(20px);
-  border-radius:20px;
+.card{
+  width:85%;
+  max-width:320px;
   padding:30px;
-  width:80%;
-  max-width:300px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  border-radius:25px;
+  backdrop-filter: blur(25px);
+  background: rgba(255,255,255,0.05);
+  box-shadow:0 20px 50px rgba(0,0,0,0.6);
   text-align:center;
 }
 
-/* counter */
-.counter {
-  font-size:60px;
-  font-weight:bold;
-  margin:20px 0;
+.title{
+  font-size:14px;
+  opacity:0.6;
+  letter-spacing:2px;
 }
 
-/* buttons */
-button {
+.counter{
+  font-size:70px;
+  font-weight:700;
+  margin:25px 0;
+  transition:0.2s;
+}
+
+button{
   width:100%;
-  padding:15px;
   border:none;
-  border-radius:15px;
+  padding:16px;
+  margin-top:12px;
+  border-radius:18px;
   font-size:18px;
-  margin-top:10px;
-  font-weight:bold;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.2s;
 }
 
-.run {
-  background:#22c55e;
+.run{
+  background:linear-gradient(135deg,#22c55e,#16a34a);
   color:white;
 }
 
-.reset {
-  background:#ef4444;
+.reset{
+  background:rgba(255,255,255,0.08);
   color:white;
+}
+
+button:active{
+  transform:scale(0.96);
 }
 </style>
 </head>
@@ -73,6 +79,7 @@ button {
 <body>
 
 <div class="card">
+  <div class="title">ACC COUNTER</div>
   <div class="counter" id="count">0</div>
 
   <button class="run" onclick="run()">RUN</button>
@@ -80,28 +87,49 @@ button {
 </div>
 
 <script>
-// load saved count
-let count = parseInt(localStorage.getItem("count") || "0");
-document.getElementById("count").innerText = count;
+// =======================
+// 🔥 CHỈ SỬA LINK Ở ĐÂY
+// =======================
+const TARGET_LINK = "https://6cc.cz";
 
-function run(){
-  count++;
-  localStorage.setItem("count", count);
-  document.getElementById("count").innerText = count;
+// load count
+let count = parseInt(localStorage.getItem("count")) || 0;
+const el = document.getElementById("count");
+el.innerText = count;
 
-  window.open(
-    "https://6cc.cz?acc=" + count + "&id=" + Date.now(),
-    "_blank"
-  );
+// hiệu ứng số
+function updateUI(){
+  el.style.transform = "scale(1.15)";
+  el.innerText = count;
+  setTimeout(()=> el.style.transform = "scale(1)",150);
 }
 
+// chống spam click
+let isRunning = false;
+
+// RUN
+function run(){
+  if(isRunning) return;
+  isRunning = true;
+
+  count++;
+  localStorage.setItem("count", count);
+  updateUI();
+
+  // delay nhẹ cho tự nhiên
+  setTimeout(() => {
+    window.location.href =
+      TARGET_LINK + "?acc=" + count + "&id=" + Date.now();
+  }, 400);
+}
+
+// RESET
 function reset(){
   count = 0;
   localStorage.setItem("count", 0);
-  document.getElementById("count").innerText = count;
+  updateUI();
 }
 </script>
 
 </body>
 </html>
-
