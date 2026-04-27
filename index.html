@@ -1,11 +1,11 @@
-```html id="pwa1"
+```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- tên app -->
+<!-- iPhone app -->
 <meta name="apple-mobile-web-app-title" content="ACC TOOL">
 <meta name="apple-mobile-web-app-capable" content="yes">
 
@@ -23,28 +23,59 @@ body {
 }
 
 button {
-  padding:20px;
+  padding:18px;
   font-size:18px;
   border:none;
   border-radius:12px;
-  background:#22c55e;
-  color:white;
-  margin-top:40px;
+  margin:10px;
+  font-weight:bold;
+}
+
+.run { background:#22c55e; color:white; }
+.reset { background:#ef4444; color:white; }
+
+.counter {
+  font-size:40px;
+  margin-top:15px;
 }
 </style>
 </head>
 
 <body>
 
-<h2>📱 Thêm ra màn hình chính</h2>
+<h2>🚀 ACC TOOL</h2>
 
-<button onclick="showGuide()">THÊM NGAY</button>
+<div class="counter" id="count">0</div>
+
+<button class="run" onclick="run()">BẤM THÊM</button>
+<button class="reset" onclick="reset()">RESET</button>
 
 <script>
-function showGuide(){
-  alert(
-"👉 Làm nhanh:\n\n1. Bấm nút chia sẻ ⬆️ dưới màn hình\n2. Chọn 'Thêm vào MH chính'\n3. Bấm Add là xong\n\n👉 Tên & icon đã có sẵn 👍"
+// lấy dữ liệu cũ
+let count = localStorage.getItem("count") || 0;
+count = parseInt(count);
+document.getElementById("count").innerText = count;
+
+// mở khi vào app
+window.onload = function(){
+  run();
+}
+
+function run(){
+  count++;
+  localStorage.setItem("count", count);
+  document.getElementById("count").innerText = count;
+
+  window.open(
+    "https://6cc.cz?acc=" + count + "&id=" + Date.now(),
+    "_blank"
   );
+}
+
+function reset(){
+  count = 0;
+  localStorage.setItem("count", 0);
+  document.getElementById("count").innerText = count;
 }
 </script>
 
