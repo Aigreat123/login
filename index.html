@@ -1,65 +1,89 @@
 ```html
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- iPhone app -->
-<meta name="apple-mobile-web-app-title" content="ACC TOOL">
+<!-- iPhone full screen -->
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<!-- icon -->
-<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/565/565547.png">
+<!-- App name -->
+<meta name="apple-mobile-web-app-title" content="ACC">
 
-<title>ACC TOOL</title>
+<!-- Apple-style icon -->
+<link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg">
+
+<title>ACC</title>
 
 <style>
 body {
-  background:#0f172a;
+  margin:0;
+  background: linear-gradient(180deg, #0f172a, #020617);
   color:white;
-  text-align:center;
   font-family:-apple-system;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
 }
 
+/* iOS style card */
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border-radius:20px;
+  padding:30px;
+  width:80%;
+  max-width:300px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  text-align:center;
+}
+
+/* counter */
+.counter {
+  font-size:60px;
+  font-weight:bold;
+  margin:20px 0;
+}
+
+/* buttons */
 button {
-  padding:18px;
-  font-size:18px;
+  width:100%;
+  padding:15px;
   border:none;
-  border-radius:12px;
-  margin:10px;
+  border-radius:15px;
+  font-size:18px;
+  margin-top:10px;
   font-weight:bold;
 }
 
-.run { background:#22c55e; color:white; }
-.reset { background:#ef4444; color:white; }
+.run {
+  background:#22c55e;
+  color:white;
+}
 
-.counter {
-  font-size:40px;
-  margin-top:15px;
+.reset {
+  background:#ef4444;
+  color:white;
 }
 </style>
 </head>
 
 <body>
 
-<h2>🚀 ACC TOOL</h2>
+<div class="card">
+  <div class="counter" id="count">0</div>
 
-<div class="counter" id="count">0</div>
-
-<button class="run" onclick="run()">BẤM THÊM</button>
-<button class="reset" onclick="reset()">RESET</button>
+  <button class="run" onclick="run()">RUN</button>
+  <button class="reset" onclick="reset()">RESET</button>
+</div>
 
 <script>
-// lấy dữ liệu cũ
-let count = localStorage.getItem("count") || 0;
-count = parseInt(count);
+// load saved count
+let count = parseInt(localStorage.getItem("count") || "0");
 document.getElementById("count").innerText = count;
-
-// mở khi vào app
-window.onload = function(){
-  run();
-}
 
 function run(){
   count++;
