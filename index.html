@@ -1,0 +1,123 @@
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚀 Multi Tool Public</title>
+
+<style>
+body {
+  font-family: -apple-system;
+  background: #0f172a;
+  color: white;
+  text-align: center;
+}
+
+.container {
+  padding: 20px;
+}
+
+input {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  margin: 6px;
+  width: 80%;
+}
+
+button {
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  margin: 5px;
+  font-weight: bold;
+}
+
+.start {
+  background: #22c55e;
+  color: white;
+}
+
+.stop {
+  background: #ef4444;
+  color: white;
+}
+
+.status {
+  margin-top: 10px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>🚀 Multi Tool (Public)</h2>
+
+  <input type="number" id="count" placeholder="Số tab (vd: 5)">
+  <input type="text" id="url" value="https://6cc.cz">
+  <input type="number" id="reload" placeholder="Reload (giây)">
+
+  <br>
+  <button class="start" onclick="start()">Start</button>
+  <button class="stop" onclick="stop()">Stop</button>
+
+  <div class="status" id="status">Sẵn sàng</div>
+</div>
+
+<script>
+let intervals = [];
+let running = false;
+
+function randomID() {
+  return Math.floor(Math.random() * 1000000);
+}
+
+function start() {
+  if (running) return;
+
+  const count = parseInt(document.getElementById("count").value);
+  const baseUrl = document.getElementById("url").value;
+  const reloadTime = parseInt(document.getElementById("reload").value) * 1000;
+
+  if (!count || count <= 0) {
+    alert("Nhập số tab!");
+    return;
+  }
+
+  running = true;
+  document.getElementById("status").innerText = "Đang chạy...";
+
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const newUrl = baseUrl + "?id=" + randomID();
+      const win = window.open(newUrl, "_blank");
+
+      if (reloadTime && reloadTime > 0) {
+        const interval = setInterval(() => {
+          if (win && !win.closed) {
+            win.location.reload();
+          }
+        }, reloadTime);
+
+        intervals.push(interval);
+      }
+
+    }, i * 400);
+  }
+}
+
+function stop() {
+  intervals.forEach(i => clearInterval(i));
+  intervals = [];
+  running = false;
+  document.getElementById("status").innerText = "Đã dừng";
+}
+</script>
+
+</body>
+</html>
+```
