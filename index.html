@@ -20,44 +20,44 @@ body{
   color:white;
 }
 
-.card{
-  width:90%;
-  max-width:320px;
-  padding:25px;
-  border-radius:25px;
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(20px);
-  text-align:center;
+.wrap{
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
 }
 
 .counter{
-  font-size:70px;
+  font-size:80px;
   font-weight:bold;
-  margin:20px 0;
+  margin-bottom:30px;
 }
 
-button{
-  width:100%;
-  padding:20px;
-  border:none;
-  border-radius:20px;
-  font-size:22px;
+.tap{
+  width:90%;
+  height:50vh;
+  border-radius:30px;
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:28px;
   font-weight:bold;
-  background:#22c55e;
-  color:white;
 }
 
-button:active{
-  transform:scale(0.9);
+.tap:active{
+  transform:scale(0.95);
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="wrap">
   <div class="counter" id="count">0</div>
-  <button id="runBtn">HOLD</button>
+  <div class="tap" id="tap">TAP FAST</div>
 </div>
 
 <script>
@@ -67,42 +67,36 @@ let count = parseInt(localStorage.getItem("count")) || 0;
 const el = document.getElementById("count");
 el.innerText = count;
 
-let interval = null;
+const tap = document.getElementById("tap");
 
-// giữ tay bắt đầu
-document.getElementById("runBtn").addEventListener("touchstart", start);
+// kiểm soát tốc độ (rất quan trọng)
+let lastClick = 0;
 
-// thả tay dừng
-document.addEventListener("touchend", stop);
+tap.addEventListener("touchstart", run, {passive:true});
 
-// chạy liên tục
-function start(){
-  if(interval) return;
+function run(){
+  const now = Date.now();
 
-  interval = setInterval(() => {
-    openOne();
-  }, 180); // tốc độ tối ưu (đừng thấp hơn kẻo bị block)
-}
+  // chặn spam quá nhanh → tránh bị Safari block
+  if(now - lastClick < 220) return;
+  lastClick = now;
 
-function stop(){
-  clearInterval(interval);
-  interval = null;
-}
-
-// mở 1 tab = tăng 1 count (CHUẨN 1:1)
-function openOne(){
-  count++;
-  localStorage.setItem("count", count);
-  el.innerText = count;
-
-  const url = TARGET_LINK + "?acc=" + count + "&id=" + Date.now();
+  const nextCount = count + 1;
+  const url = TARGET_LINK + "?acc=" + nextCount + "&id=" + now;
 
   const a = document.createElement("a");
   a.href = url;
   a.target = "_blank";
   document.body.appendChild(a);
+
   a.click();
+
   document.body.removeChild(a);
+
+  // chỉ tăng sau khi click
+  count = nextCount;
+  localStorage.setItem("count", count);
+  el.innerText = count;
 }
 </script>
 
