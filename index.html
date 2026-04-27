@@ -69,35 +69,30 @@ el.innerText = count;
 
 const tap = document.getElementById("tap");
 
-// kiểm soát tốc độ (rất quan trọng)
 let lastClick = 0;
 
-tap.addEventListener("touchstart", run, {passive:true});
+// CLICK chuẩn (quan trọng)
+tap.onclick = function(){
 
-function run(){
   const now = Date.now();
 
-  // chặn spam quá nhanh → tránh bị Safari block
-  if(now - lastClick < 220) return;
+  // tốc độ tối ưu chống block
+  if(now - lastClick < 280) return;
   lastClick = now;
 
   const nextCount = count + 1;
   const url = TARGET_LINK + "?acc=" + nextCount + "&id=" + now;
 
-  const a = document.createElement("a");
-  a.href = url;
-  a.target = "_blank";
-  document.body.appendChild(a);
+  // mở tab
+  const win = window.open(url, "_blank");
 
-  a.click();
-
-  document.body.removeChild(a);
-
-  // chỉ tăng sau khi click
-  count = nextCount;
-  localStorage.setItem("count", count);
-  el.innerText = count;
-}
+  // chỉ tăng khi KHÔNG bị block
+  if(win){
+    count = nextCount;
+    localStorage.setItem("count", count);
+    el.innerText = count;
+  }
+};
 </script>
 
 </body>
