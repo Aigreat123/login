@@ -20,7 +20,6 @@ body{
   color:white;
 }
 
-/* full màn hình */
 .wrap{
   width:100%;
   height:100%;
@@ -30,17 +29,15 @@ body{
   align-items:center;
 }
 
-/* số */
 .counter{
   font-size:80px;
   font-weight:bold;
   margin-bottom:20px;
 }
 
-/* vùng bấm lớn */
 .tap{
   width:90%;
-  height:55vh;
+  height:50vh;
   border-radius:30px;
   background:linear-gradient(135deg,#22c55e,#16a34a);
   display:flex;
@@ -48,17 +45,23 @@ body{
   align-items:center;
   font-size:30px;
   font-weight:bold;
-  user-select:none;
 }
 
-/* hiệu ứng */
 .tap:active{
   transform:scale(0.92);
 }
 
-/* hướng dẫn nhỏ */
-.note{
+/* nút reset nhỏ gọn */
+.reset{
   margin-top:15px;
+  padding:10px 20px;
+  border-radius:12px;
+  background:#ef4444;
+  font-size:14px;
+}
+
+.note{
+  margin-top:10px;
   font-size:13px;
   opacity:0.5;
 }
@@ -69,7 +72,11 @@ body{
 
 <div class="wrap">
   <div class="counter" id="count">0</div>
+
   <div class="tap" id="tap">TAP</div>
+
+  <div class="reset" id="reset">RESET</div>
+
   <div class="note">tap → back → tap</div>
 </div>
 
@@ -81,21 +88,21 @@ const el = document.getElementById("count");
 el.innerText = count;
 
 const tap = document.getElementById("tap");
+const resetBtn = document.getElementById("reset");
 
 let lastClick = 0;
 
+// TAP mở tab
 tap.onclick = function(){
 
   const now = Date.now();
 
-  // chống bị block
   if(now - lastClick < 280) return;
   lastClick = now;
 
   const nextCount = count + 1;
   const url = TARGET_LINK + "?acc=" + nextCount + "&id=" + now;
 
-  // mở tab mới
   const win = window.open(url, "_blank");
 
   if(win){
@@ -103,6 +110,13 @@ tap.onclick = function(){
     localStorage.setItem("count", count);
     el.innerText = count;
   }
+};
+
+// RESET về 0
+resetBtn.onclick = function(){
+  count = 0;
+  localStorage.setItem("count", 0);
+  el.innerText = count;
 };
 </script>
 
