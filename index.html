@@ -1,156 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="apple-mobile-web-app-capable" content="yes">
 
-<title>ACC</title>
+<title>Cài App</title>
+
+<link rel="apple-touch-icon" href="https://aigreat123.github.io/login/icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 <style>
-body{
-  margin:0;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:#020617;
-  font-family:-apple-system;
-  color:white;
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont;
+  background: linear-gradient(135deg, #000, #111);
+  color: #fff;
+  text-align: center;
 }
 
-.wrap{
-  width:100%;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
-  box-sizing:border-box;
+.container {
+  padding: 30px 20px;
 }
 
-.counter{
-  font-size:80px;
-  font-weight:bold;
-  margin-bottom:10px;
+.logo {
+  width: 90px;
+  height: 90px;
+  border-radius: 20px;
+  margin-top: 40px;
 }
 
-.tap{
-  width:90%;
-  height:45vh;
-  border-radius:30px;
-  background:linear-gradient(135deg,#22c55e,#16a34a);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:30px;
-  font-weight:bold;
-  user-select:none;
+h1 {
+  font-size: 22px;
+  margin-top: 15px;
 }
 
-.tap:active{
-  transform:scale(0.92);
+.btn {
+  margin-top: 30px;
+  padding: 16px;
+  width: 90%;
+  max-width: 300px;
+  font-size: 18px;
+  background: #00c853;
+  border: none;
+  border-radius: 14px;
+  color: white;
 }
 
-.reset{
-  margin-top:12px;
-  padding:10px 20px;
-  border-radius:12px;
-  background:#ef4444;
-  font-size:14px;
+.steps {
+  margin-top: 30px;
+  text-align: left;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 15px;
+  line-height: 1.6;
+  opacity: 0.9;
 }
 
-.shortcut{
-  margin-top:12px;
-  padding:12px;
-  border-radius:12px;
-  background:#2563eb;
-  font-size:13px;
-  text-align:center;
-  width:90%;
-  color:white;
-  text-decoration:none;
+.step {
+  margin-bottom: 10px;
 }
 
-.note{
-  margin-top:10px;
-  font-size:12px;
-  opacity:0.6;
-  text-align:center;
+.footer {
+  margin-top: 40px;
+  font-size: 13px;
+  opacity: 0.5;
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrap">
+<div class="container">
 
-  <div class="counter" id="count">0</div>
+  <img class="logo" src="https://aigreat123.github.io/login/icon.png">
 
-  <div class="tap" id="tap">TAP</div>
+  <h1>Cài App Nhanh</h1>
 
-  <div class="reset" id="reset">RESET</div>
+  <button class="btn" onclick="start()">
+    🚀 Bắt đầu
+  </button>
 
-  <!-- 🔥 iPHONE SHORTCUT -->
-  <a class="shortcut"
-     href="https://www.icloud.com/shortcuts/be10b969422a45cc95262b25209949c8"
-     target="_blank">
-     🔥 iPhone: Cài 1 lần → mở 10 ACC nhanh
-  </a>
+  <div class="steps">
+    <div class="step">① Nhấn nút Share ⬆️</div>
+    <div class="step">② Chọn “Add to Home Screen”</div>
+    <div class="step">③ Nhấn Add</div>
+    <div class="step">④ Mở icon để vào hệ thống</div>
+  </div>
 
-  <div class="note">
-    📱 iPhone: bấm trên → Add Shortcut 1 lần<br>
-    Sau đó dùng 1 chạm mở 10 tab
+  <div class="footer">
+    Làm xong quay lại để tạo thêm nếu cần
   </div>
 
 </div>
 
 <script>
 
-/* =========================
-   ⚙️ CONFIG - CHỈ SỬA 1 CHỖ NÀY
-   ========================= */
-const CONFIG = {
-  baseLink: "https://wtl723.cc/h5/#/home"
-};
-/* ========================= */
+// 🔥 CHỈ SỬA LINK Ở ĐÂY
+var TARGET = "https://wtl723.cc/h5/#/home";
 
-let count = parseInt(localStorage.getItem("count")) || 0;
-const el = document.getElementById("count");
-el.innerText = count;
+function isStandalone() {
+  return window.navigator.standalone === true;
+}
 
-const tap = document.getElementById("tap");
-const resetBtn = document.getElementById("reset");
+// Nếu mở từ icon → vào thẳng hệ thống
+if (isStandalone()) {
+  window.location.href = TARGET;
+}
 
-let lastClick = 0;
+// Khi bấm nút
+function start() {
 
-/* TAP */
-tap.onclick = function(){
+  // Hiệu ứng delay nhẹ cho mượt
+  document.body.style.opacity = "0.6";
 
-  const now = Date.now();
-  if(now - lastClick < 280) return;
-  lastClick = now;
+  setTimeout(() => {
+    window.location.href = TARGET;
+  }, 600);
 
-  const nextCount = count + 1;
-
-  const url = CONFIG.baseLink + "?acc=" + nextCount + "&id=" + now;
-
-  const win = window.open(url, "_blank");
-
-  if(win){
-    count = nextCount;
-    localStorage.setItem("count", count);
-    el.innerText = count;
-  }
-};
-
-/* RESET */
-resetBtn.onclick = function(){
-  count = 0;
-  localStorage.setItem("count", 0);
-  el.innerText = count;
-};
+  // Nhắc nhẹ user
+  setTimeout(() => {
+    alert("👉 Nhấn Share ⬆️ rồi chọn 'Add to Home Screen'");
+  }, 1500);
+}
 
 </script>
 
