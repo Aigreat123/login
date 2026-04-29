@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <meta name="apple-mobile-web-app-capable" content="yes">
 
 <title>ACC</title>
@@ -27,17 +26,19 @@ body{
   flex-direction:column;
   justify-content:center;
   align-items:center;
+  padding:20px;
+  box-sizing:border-box;
 }
 
 .counter{
   font-size:80px;
   font-weight:bold;
-  margin-bottom:20px;
+  margin-bottom:10px;
 }
 
 .tap{
   width:90%;
-  height:50vh;
+  height:45vh;
   border-radius:30px;
   background:linear-gradient(135deg,#22c55e,#16a34a);
   display:flex;
@@ -45,6 +46,7 @@ body{
   align-items:center;
   font-size:30px;
   font-weight:bold;
+  user-select:none;
 }
 
 .tap:active{
@@ -52,17 +54,30 @@ body{
 }
 
 .reset{
-  margin-top:15px;
+  margin-top:12px;
   padding:10px 20px;
   border-radius:12px;
   background:#ef4444;
   font-size:14px;
 }
 
+.shortcut{
+  margin-top:12px;
+  padding:12px;
+  border-radius:12px;
+  background:#2563eb;
+  font-size:13px;
+  text-align:center;
+  width:90%;
+  color:white;
+  text-decoration:none;
+}
+
 .note{
   margin-top:10px;
-  font-size:13px;
-  opacity:0.5;
+  font-size:12px;
+  opacity:0.6;
+  text-align:center;
 }
 </style>
 </head>
@@ -70,18 +85,36 @@ body{
 <body>
 
 <div class="wrap">
+
   <div class="counter" id="count">0</div>
 
   <div class="tap" id="tap">TAP</div>
 
   <div class="reset" id="reset">RESET</div>
 
-  <div class="note">tap → back → tap</div>
+  <!-- 🔥 iPHONE SHORTCUT -->
+  <a class="shortcut"
+     href="https://www.icloud.com/shortcuts/be10b969422a45cc95262b25209949c8"
+     target="_blank">
+     🔥 iPhone: Cài 1 lần → mở 10 ACC nhanh
+  </a>
+
+  <div class="note">
+    📱 iPhone: bấm trên → Add Shortcut 1 lần<br>
+    Sau đó dùng 1 chạm mở 10 tab
+  </div>
+
 </div>
 
 <script>
-// 🔥 LINK CHUẨN (GIỮ NGUYÊN)
-const BASE_LINK = "https://wtl723.cc/h5/#/home";
+
+/* =========================
+   ⚙️ CONFIG - CHỈ SỬA 1 CHỖ NÀY
+   ========================= */
+const CONFIG = {
+  baseLink: "https://wtl723.cc/h5/#/home"
+};
+/* ========================= */
 
 let count = parseInt(localStorage.getItem("count")) || 0;
 const el = document.getElementById("count");
@@ -92,18 +125,16 @@ const resetBtn = document.getElementById("reset");
 
 let lastClick = 0;
 
-// TAP mở tab
+/* TAP */
 tap.onclick = function(){
 
   const now = Date.now();
-
   if(now - lastClick < 280) return;
   lastClick = now;
 
   const nextCount = count + 1;
 
-  // ✅ thêm param SAU dấu #
-  const url = BASE_LINK + "?acc=" + nextCount + "&id=" + now;
+  const url = CONFIG.baseLink + "?acc=" + nextCount + "&id=" + now;
 
   const win = window.open(url, "_blank");
 
@@ -114,12 +145,13 @@ tap.onclick = function(){
   }
 };
 
-// RESET
+/* RESET */
 resetBtn.onclick = function(){
   count = 0;
   localStorage.setItem("count", 0);
   el.innerText = count;
 };
+
 </script>
 
 </body>
