@@ -1,86 +1,139 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cài App</title>
+<title>Connect</title>
+
+<link rel="apple-touch-icon" href="https://aigreat123.github.io/login/icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
 
 <style>
 body {
   margin: 0;
-  font-family: -apple-system;
-  background: #000;
+  font-family: -apple-system, BlinkMacSystemFont;
+  background: linear-gradient(135deg, #000, #111);
   color: #fff;
   text-align: center;
 }
 
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.9);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.container {
+  padding: 30px 20px;
+}
+
+.logo {
+  width: 90px;
+  height: 90px;
+  border-radius: 20px;
+  margin-top: 40px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+.subtitle {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.btn {
+  margin-top: 30px;
+  padding: 16px;
+  width: 90%;
+  max-width: 320px;
+  font-size: 18px;
+  background: #00c853;
+  border: none;
+  border-radius: 14px;
+  color: white;
+  font-weight: 600;
+}
+
+.steps {
+  margin-top: 30px;
+  text-align: left;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 15px;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.highlight {
+  color: #00e676;
+  font-weight: 600;
 }
 
 .arrow {
-  font-size: 50px;
+  font-size: 40px;
+  margin-top: 20px;
   animation: updown 1s infinite;
 }
 
 @keyframes updown {
   0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  50% { transform: translateY(-8px); }
   100% { transform: translateY(0); }
 }
 
-.text {
-  margin-top: 20px;
-  font-size: 18px;
-  line-height: 1.5;
+.footer {
+  margin-top: 40px;
+  font-size: 13px;
+  opacity: 0.5;
 }
 </style>
 </head>
 
 <body>
 
-<div class="overlay" id="overlay">
+<div class="container">
+
+  <img class="logo" src="https://aigreat123.github.io/login/icon.png">
+
+  <h1>Connect</h1>
+  <div class="subtitle">Quick setup to access system</div>
+
+  <!-- Mũi tên chỉ xuống thanh share -->
   <div class="arrow">⬇️</div>
-  <div class="text">
-    Nhấn nút Share ⬆️<br>
-    rồi chọn <b>Add to Home Screen</b><br><br>
-    Tự chuyển sau <span id="count">3</span>s...
+
+  <div class="steps">
+    ① Tap <span class="highlight">Share ⬆️</span> in Safari<br>
+    ② Select <span class="highlight">Add to Home Screen</span><br>
+    ③ Tap <span class="highlight">Add</span><br><br>
+
+    👉 Then open the icon from your Home Screen
   </div>
+
+  <!-- Nút vào hệ thống -->
+  <button class="btn" onclick="go()">
+    🔗 Connect Now
+  </button>
+
+  <div class="footer">
+    After installation, use the icon for direct access
+  </div>
+
 </div>
 
 <script>
 
-// 🔥 LINK
+// 🔥 CHỈ SỬA LINK Ở ĐÂY
 var TARGET = "https://wtl723.cc/h5/#/home";
 
-// nếu mở từ icon → vào thẳng
+// Nếu mở từ icon → vào thẳng
 if (window.navigator.standalone) {
   window.location.href = TARGET;
 }
 
-// đếm ngược
-let c = 3;
-let el = document.getElementById("count");
-
-let timer = setInterval(() => {
-  c--;
-  el.innerText = c;
-
-  if (c <= 0) {
-    clearInterval(timer);
-    window.location.href = TARGET;
-  }
-}, 1000);
+// Nút bấm vào hệ thống
+function go() {
+  window.location.href = TARGET;
+}
 
 </script>
 
