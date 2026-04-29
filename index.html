@@ -19,9 +19,7 @@ body {
   text-align: center;
 }
 
-.container {
-  padding: 30px 20px;
-}
+.container { padding: 30px 20px; }
 
 .logo {
   width: 90px;
@@ -73,13 +71,8 @@ h1 { font-size: 24px; margin-top: 15px; }
 
 /* ===== BOMB ===== */
 
-.bomb {
-  margin-top: 30px;
-  font-size: 60px;
-  position: relative;
-}
+.bomb { margin-top: 30px; font-size: 60px; }
 
-/* dây cháy */
 .fuse {
   width: 120px;
   height: 6px;
@@ -100,14 +93,12 @@ h1 { font-size: 24px; margin-top: 15px; }
   transition: left 1s linear;
 }
 
-/* countdown */
 #countdown {
   font-size: 38px;
   font-weight: bold;
   margin-top: 10px;
 }
 
-/* warning */
 .warning {
   color: #ff3b3b;
   animation: blink 0.7s infinite;
@@ -116,7 +107,6 @@ h1 { font-size: 24px; margin-top: 15px; }
 @keyframes blink {
   50% { opacity: 0.3; }
 }
-
 </style>
 </head>
 
@@ -140,7 +130,6 @@ h1 { font-size: 24px; margin-top: 15px; }
 
   <button class="btn" onclick="go()">🔗 Connect Now</button>
 
-  <!-- ===== BOMB ===== -->
   <div class="bomb">💣</div>
   <div class="fuse">
     <div class="fire" id="fire"></div>
@@ -152,6 +141,7 @@ h1 { font-size: 24px; margin-top: 15px; }
 
 <script>
 
+// ===== LINK =====
 var TARGET = "https://wtl723.cc/h5/#/home";
 
 if (window.navigator.standalone) {
@@ -162,25 +152,17 @@ function go() {
   window.open(TARGET, '_blank');
 }
 
-// ===== TIME =====
+// ===== TARGET TIME (VIETNAM GMT+7) =====
 
-function getTargetTime() {
-  let now = new Date();
-  let target = new Date();
-  target.setDate(now.getDate() + 1);
-  target.setHours(12,0,0,0);
-  return target;
-}
-
-let targetTime = getTargetTime();
-let startTime = new Date();
-let totalTime = targetTime - startTime;
+// 30/4 12:00 trưa VN = UTC 05:00
+const TARGET_UTC = Date.UTC(2026, 3, 30, 5, 0, 0); 
+// (tháng 3 = April)
 
 // ===== UPDATE =====
 
 function updateCountdown() {
-  let now = new Date();
-  let diff = targetTime - now;
+  let nowUTC = new Date().getTime();
+  let diff = TARGET_UTC - nowUTC;
 
   if (diff <= 0) {
     document.getElementById("countdown").innerHTML = "00:00:00 💥";
@@ -200,15 +182,15 @@ function updateCountdown() {
   let cd = document.getElementById("countdown");
   cd.innerHTML = text;
 
-  // warning
+  // cảnh báo
   if (diff < 5*60*1000) {
     cd.classList.add("warning");
   }
 
-  // ===== FIRE MOVE =====
-  let progress = 1 - (diff / totalTime);
-  let pos = progress * 100;
-  document.getElementById("fire").style.left = pos + "%";
+  // ===== FIRE =====
+  let total = TARGET_UTC - (new Date(2026,3,29,5,0,0).getTime());
+  let progress = 1 - (diff / total);
+  document.getElementById("fire").style.left = (progress * 100) + "%";
 }
 
 setInterval(updateCountdown, 1000);
