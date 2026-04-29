@@ -80,8 +80,8 @@ body{
 </div>
 
 <script>
-// 🔥 LINK ĐÃ FIX ĐÚNG HASH ROUTE
-const TARGET_LINK = "https://wtl723.cc/pc/#/login";
+// 🔥 LINK CHUẨN (GIỮ NGUYÊN)
+const BASE_LINK = "https://wtl723.cc/h5/#/home";
 
 let count = parseInt(localStorage.getItem("count")) || 0;
 const el = document.getElementById("count");
@@ -102,8 +102,8 @@ tap.onclick = function(){
 
   const nextCount = count + 1;
 
-  // ✅ FIX: thêm query sau #
-  const url = TARGET_LINK + "?acc=" + nextCount + "&id=" + now;
+  // ✅ thêm param SAU dấu #
+  const url = BASE_LINK + "?acc=" + nextCount + "&id=" + now;
 
   const win = window.open(url, "_blank");
 
