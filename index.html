@@ -6,7 +6,6 @@
 
 <title>DSJ BG</title>
 
-<!-- Icon chữ DSJ BG -->
 <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iIzAwYzg1MyIgcng9IjgwIi8+PHRleHQgeD0iNTAlIiB5PSI1NSUiIGR5PSIuMzVlbSIgZm9udC1zaXplPSIxMjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkRTSiBCRzwvdGV4dD48L3N2Zz4=">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -81,6 +80,58 @@ h1 {
   50% { transform: translateY(-8px); }
   100% { transform: translateY(0); }
 }
+
+/* ===== COUNTDOWN STYLE ===== */
+
+.countdown-box {
+  margin-top: 30px;
+}
+
+#countdown {
+  font-size: 38px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.warning {
+  color: #ff3b3b;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+/* ===== HOURGLASS ===== */
+
+.hourglass {
+  width: 40px;
+  height: 70px;
+  margin: 0 auto;
+  border: 3px solid #fff;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.sand-top, .sand-bottom {
+  position: absolute;
+  width: 100%;
+  background: #00c853;
+}
+
+.sand-top {
+  top: 0;
+  height: 50%;
+}
+
+.sand-bottom {
+  bottom: 0;
+  height: 0%;
+}
+
 </style>
 </head>
 
@@ -106,22 +157,86 @@ h1 {
     🔗 Connect Now
   </button>
 
+  <!-- ===== COUNTDOWN ===== -->
+  <div class="countdown-box">
+    <div class="hourglass">
+      <div class="sand-top" id="sandTop"></div>
+      <div class="sand-bottom" id="sandBottom"></div>
+    </div>
+
+    <div id="countdown">00:00:00</div>
+  </div>
+
 </div>
 
 <script>
 
-// 🔥 SỬA LINK TẠI ĐÂY
+// ===== LINK =====
 var TARGET = "https://wtl723.cc/h5/#/home";
 
-// Nếu mở từ icon → vào thẳng
 if (window.navigator.standalone) {
   window.location.href = TARGET;
 }
 
-// MỞ TAB MỚI (KHÔNG ĐÈ TRANG)
 function go() {
   window.open(TARGET, '_blank');
 }
+
+// ===== TIME =====
+
+function getTargetTime() {
+  let now = new Date();
+  let target = new Date();
+
+  target.setDate(now.getDate() + 1);
+  target.setHours(12, 0, 0, 0);
+
+  return target;
+}
+
+let targetTime = getTargetTime();
+let startTime = new Date();
+let totalTime = targetTime - startTime;
+
+// ===== UPDATE =====
+
+function updateCountdown() {
+  let now = new Date();
+  let diff = targetTime - now;
+
+  if (diff <= 0) {
+    document.getElementById("countdown").innerHTML = "00:00:00";
+    document.body.style.background = "black";
+    document.getElementById("countdown").classList.add("warning");
+    return;
+  }
+
+  let hours = Math.floor(diff / (1000 * 60 * 60));
+  let minutes = Math.floor((diff / (1000 * 60)) % 60);
+  let seconds = Math.floor((diff / 1000) % 60);
+
+  let text =
+    String(hours).padStart(2, '0') + ":" +
+    String(minutes).padStart(2, '0') + ":" +
+    String(seconds).padStart(2, '0');
+
+  let countdownEl = document.getElementById("countdown");
+  countdownEl.innerHTML = text;
+
+  // ===== WARNING MODE =====
+  if (diff < 5 * 60 * 1000) { // dưới 5 phút
+    countdownEl.classList.add("warning");
+  }
+
+  // ===== HOURGLASS =====
+  let progress = 1 - (diff / totalTime);
+
+  document.getElementById("sandTop").style.height = (50 - progress * 50) + "%";
+  document.getElementById("sandBottom").style.height = (progress * 50) + "%";
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
 
 </script>
 
