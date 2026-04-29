@@ -6,124 +6,81 @@
 
 <title>Cài App</title>
 
-<link rel="apple-touch-icon" href="https://aigreat123.github.io/login/icon.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-
 <style>
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont;
-  background: linear-gradient(135deg, #000, #111);
+  font-family: -apple-system;
+  background: #000;
   color: #fff;
   text-align: center;
 }
 
-.container {
-  padding: 30px 20px;
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.logo {
-  width: 90px;
-  height: 90px;
-  border-radius: 20px;
-  margin-top: 40px;
+.arrow {
+  font-size: 50px;
+  animation: updown 1s infinite;
 }
 
-h1 {
-  font-size: 22px;
-  margin-top: 15px;
+@keyframes updown {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
 }
 
-.btn {
-  margin-top: 30px;
-  padding: 16px;
-  width: 90%;
-  max-width: 300px;
+.text {
+  margin-top: 20px;
   font-size: 18px;
-  background: #00c853;
-  border: none;
-  border-radius: 14px;
-  color: white;
-}
-
-.steps {
-  margin-top: 30px;
-  text-align: left;
-  max-width: 320px;
-  margin-left: auto;
-  margin-right: auto;
-  font-size: 15px;
-  line-height: 1.6;
-  opacity: 0.9;
-}
-
-.step {
-  margin-bottom: 10px;
-}
-
-.footer {
-  margin-top: 40px;
-  font-size: 13px;
-  opacity: 0.5;
+  line-height: 1.5;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-
-  <img class="logo" src="https://aigreat123.github.io/login/icon.png">
-
-  <h1>Cài App Nhanh</h1>
-
-  <button class="btn" onclick="start()">
-    🚀 Bắt đầu
-  </button>
-
-  <div class="steps">
-    <div class="step">① Nhấn nút Share ⬆️</div>
-    <div class="step">② Chọn “Add to Home Screen”</div>
-    <div class="step">③ Nhấn Add</div>
-    <div class="step">④ Mở icon để vào hệ thống</div>
+<div class="overlay" id="overlay">
+  <div class="arrow">⬇️</div>
+  <div class="text">
+    Nhấn nút Share ⬆️<br>
+    rồi chọn <b>Add to Home Screen</b><br><br>
+    Tự chuyển sau <span id="count">3</span>s...
   </div>
-
-  <div class="footer">
-    Làm xong quay lại để tạo thêm nếu cần
-  </div>
-
 </div>
 
 <script>
 
-// 🔥 CHỈ SỬA LINK Ở ĐÂY
+// 🔥 LINK
 var TARGET = "https://wtl723.cc/h5/#/home";
 
-function isStandalone() {
-  return window.navigator.standalone === true;
-}
-
-// Nếu mở từ icon → vào thẳng hệ thống
-if (isStandalone()) {
+// nếu mở từ icon → vào thẳng
+if (window.navigator.standalone) {
   window.location.href = TARGET;
 }
 
-// Khi bấm nút
-function start() {
+// đếm ngược
+let c = 3;
+let el = document.getElementById("count");
 
-  // Hiệu ứng delay nhẹ cho mượt
-  document.body.style.opacity = "0.6";
+let timer = setInterval(() => {
+  c--;
+  el.innerText = c;
 
-  setTimeout(() => {
+  if (c <= 0) {
+    clearInterval(timer);
     window.location.href = TARGET;
-  }, 600);
-
-  // Nhắc nhẹ user
-  setTimeout(() => {
-    alert("👉 Nhấn Share ⬆️ rồi chọn 'Add to Home Screen'");
-  }, 1500);
-}
+  }
+}, 1000);
 
 </script>
 
