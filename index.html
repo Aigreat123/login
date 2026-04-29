@@ -36,15 +36,8 @@ body {
   font-weight: bold;
 }
 
-h1 {
-  font-size: 24px;
-  margin-top: 15px;
-}
-
-.subtitle {
-  font-size: 14px;
-  opacity: 0.7;
-}
+h1 { font-size: 24px; margin-top: 15px; }
+.subtitle { font-size: 14px; opacity: 0.7; }
 
 .btn {
   margin-top: 30px;
@@ -63,8 +56,7 @@ h1 {
   margin-top: 30px;
   text-align: left;
   max-width: 320px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
   font-size: 15px;
   line-height: 1.6;
 }
@@ -76,60 +68,53 @@ h1 {
 }
 
 @keyframes updown {
-  0% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
-  100% { transform: translateY(0); }
 }
 
-/* ===== COUNTDOWN STYLE ===== */
+/* ===== BOMB ===== */
 
-.countdown-box {
+.bomb {
   margin-top: 30px;
+  font-size: 60px;
+  position: relative;
 }
 
+/* dây cháy */
+.fuse {
+  width: 120px;
+  height: 6px;
+  background: #555;
+  margin: 10px auto;
+  position: relative;
+}
+
+.fire {
+  width: 12px;
+  height: 12px;
+  background: orange;
+  border-radius: 50%;
+  position: absolute;
+  top: -3px;
+  left: 0;
+  box-shadow: 0 0 10px red, 0 0 20px orange;
+  transition: left 1s linear;
+}
+
+/* countdown */
 #countdown {
   font-size: 38px;
   font-weight: bold;
-  letter-spacing: 2px;
+  margin-top: 10px;
 }
 
+/* warning */
 .warning {
   color: #ff3b3b;
-  animation: blink 1s infinite;
+  animation: blink 0.7s infinite;
 }
 
 @keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0.4; }
-  100% { opacity: 1; }
-}
-
-/* ===== HOURGLASS ===== */
-
-.hourglass {
-  width: 40px;
-  height: 70px;
-  margin: 0 auto;
-  border: 3px solid #fff;
-  border-radius: 8px;
-  position: relative;
-  overflow: hidden;
-}
-
-.sand-top, .sand-bottom {
-  position: absolute;
-  width: 100%;
-  background: #00c853;
-}
-
-.sand-top {
-  top: 0;
-  height: 50%;
-}
-
-.sand-bottom {
-  bottom: 0;
-  height: 0%;
+  50% { opacity: 0.3; }
 }
 
 </style>
@@ -153,25 +138,20 @@ h1 {
     👉 Then open icon from Home Screen
   </div>
 
-  <button class="btn" onclick="go()">
-    🔗 Connect Now
-  </button>
+  <button class="btn" onclick="go()">🔗 Connect Now</button>
 
-  <!-- ===== COUNTDOWN ===== -->
-  <div class="countdown-box">
-    <div class="hourglass">
-      <div class="sand-top" id="sandTop"></div>
-      <div class="sand-bottom" id="sandBottom"></div>
-    </div>
-
-    <div id="countdown">00:00:00</div>
+  <!-- ===== BOMB ===== -->
+  <div class="bomb">💣</div>
+  <div class="fuse">
+    <div class="fire" id="fire"></div>
   </div>
+
+  <div id="countdown">00:00:00</div>
 
 </div>
 
 <script>
 
-// ===== LINK =====
 var TARGET = "https://wtl723.cc/h5/#/home";
 
 if (window.navigator.standalone) {
@@ -187,10 +167,8 @@ function go() {
 function getTargetTime() {
   let now = new Date();
   let target = new Date();
-
   target.setDate(now.getDate() + 1);
-  target.setHours(12, 0, 0, 0);
-
+  target.setHours(12,0,0,0);
   return target;
 }
 
@@ -205,34 +183,32 @@ function updateCountdown() {
   let diff = targetTime - now;
 
   if (diff <= 0) {
-    document.getElementById("countdown").innerHTML = "00:00:00";
+    document.getElementById("countdown").innerHTML = "00:00:00 💥";
     document.body.style.background = "black";
-    document.getElementById("countdown").classList.add("warning");
     return;
   }
 
-  let hours = Math.floor(diff / (1000 * 60 * 60));
-  let minutes = Math.floor((diff / (1000 * 60)) % 60);
-  let seconds = Math.floor((diff / 1000) % 60);
+  let h = Math.floor(diff / (1000*60*60));
+  let m = Math.floor((diff / (1000*60)) % 60);
+  let s = Math.floor((diff / 1000) % 60);
 
   let text =
-    String(hours).padStart(2, '0') + ":" +
-    String(minutes).padStart(2, '0') + ":" +
-    String(seconds).padStart(2, '0');
+    String(h).padStart(2,'0') + ":" +
+    String(m).padStart(2,'0') + ":" +
+    String(s).padStart(2,'0');
 
-  let countdownEl = document.getElementById("countdown");
-  countdownEl.innerHTML = text;
+  let cd = document.getElementById("countdown");
+  cd.innerHTML = text;
 
-  // ===== WARNING MODE =====
-  if (diff < 5 * 60 * 1000) { // dưới 5 phút
-    countdownEl.classList.add("warning");
+  // warning
+  if (diff < 5*60*1000) {
+    cd.classList.add("warning");
   }
 
-  // ===== HOURGLASS =====
+  // ===== FIRE MOVE =====
   let progress = 1 - (diff / totalTime);
-
-  document.getElementById("sandTop").style.height = (50 - progress * 50) + "%";
-  document.getElementById("sandBottom").style.height = (progress * 50) + "%";
+  let pos = progress * 100;
+  document.getElementById("fire").style.left = pos + "%";
 }
 
 setInterval(updateCountdown, 1000);
