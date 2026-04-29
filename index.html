@@ -51,7 +51,6 @@ body{
   transform:scale(0.92);
 }
 
-/* nút reset nhỏ gọn */
 .reset{
   margin-top:15px;
   padding:10px 20px;
@@ -81,6 +80,7 @@ body{
 </div>
 
 <script>
+// 🔥 LINK ĐÃ FIX ĐÚNG HASH ROUTE
 const TARGET_LINK = "https://wtl723.cc/pc/#/login";
 
 let count = parseInt(localStorage.getItem("count")) || 0;
@@ -101,6 +101,8 @@ tap.onclick = function(){
   lastClick = now;
 
   const nextCount = count + 1;
+
+  // ✅ FIX: thêm query sau #
   const url = TARGET_LINK + "?acc=" + nextCount + "&id=" + now;
 
   const win = window.open(url, "_blank");
@@ -112,7 +114,7 @@ tap.onclick = function(){
   }
 };
 
-// RESET về 0
+// RESET
 resetBtn.onclick = function(){
   count = 0;
   localStorage.setItem("count", 0);
