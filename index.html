@@ -6,6 +6,7 @@
 
 <title>DSJ BG</title>
 
+<!-- Icon chữ DSJ BG -->
 <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgZmlsbD0iIzAwYzg1MyIgcng9IjgwIi8+PHRleHQgeD0iNTAlIiB5PSI1NSUiIGR5PSIuMzVlbSIgZm9udC1zaXplPSIxMjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkRTSiBCRzwvdGV4dD48L3N2Zz4=">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,7 +20,9 @@ body {
   text-align: center;
 }
 
-.container { padding: 30px 20px; }
+.container {
+  padding: 30px 20px;
+}
 
 .logo {
   width: 90px;
@@ -34,8 +37,15 @@ body {
   font-weight: bold;
 }
 
-h1 { font-size: 24px; margin-top: 15px; }
-.subtitle { font-size: 14px; opacity: 0.7; }
+h1 {
+  font-size: 24px;
+  margin-top: 15px;
+}
+
+.subtitle {
+  font-size: 14px;
+  opacity: 0.7;
+}
 
 .btn {
   margin-top: 30px;
@@ -54,7 +64,8 @@ h1 { font-size: 24px; margin-top: 15px; }
   margin-top: 30px;
   text-align: left;
   max-width: 320px;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   font-size: 15px;
   line-height: 1.6;
 }
@@ -66,46 +77,9 @@ h1 { font-size: 24px; margin-top: 15px; }
 }
 
 @keyframes updown {
+  0% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
-}
-
-/* ===== BOMB ===== */
-
-.bomb { margin-top: 30px; font-size: 60px; }
-
-.fuse {
-  width: 120px;
-  height: 6px;
-  background: #555;
-  margin: 10px auto;
-  position: relative;
-}
-
-.fire {
-  width: 12px;
-  height: 12px;
-  background: orange;
-  border-radius: 50%;
-  position: absolute;
-  top: -3px;
-  left: 0;
-  box-shadow: 0 0 10px red, 0 0 20px orange;
-  transition: left 1s linear;
-}
-
-#countdown {
-  font-size: 38px;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-.warning {
-  color: #ff3b3b;
-  animation: blink 0.7s infinite;
-}
-
-@keyframes blink {
-  50% { opacity: 0.3; }
+  100% { transform: translateY(0); }
 }
 </style>
 </head>
@@ -128,73 +102,26 @@ h1 { font-size: 24px; margin-top: 15px; }
     👉 Then open icon from Home Screen
   </div>
 
-  <button class="btn" onclick="go()">🔗 Connect Now</button>
-
-  <div class="bomb">💣</div>
-  <div class="fuse">
-    <div class="fire" id="fire"></div>
-  </div>
-
-  <div id="countdown">00:00:00</div>
+  <button class="btn" onclick="go()">
+    🔗 Connect Now
+  </button>
 
 </div>
 
 <script>
 
-// ===== LINK =====
-var TARGET = "https://wtl723.cc/h5/#/home";
+// 🔥 SỬA LINK TẠI ĐÂY
+var TARGET = "https://tra239.tw/pc/#/home";
 
+// Nếu mở từ icon → vào thẳng
 if (window.navigator.standalone) {
   window.location.href = TARGET;
 }
 
+// MỞ TAB MỚI (KHÔNG ĐÈ TRANG)
 function go() {
   window.open(TARGET, '_blank');
 }
-
-// ===== TARGET TIME (VIETNAM GMT+7) =====
-
-// 30/4 12:00 trưa VN = UTC 05:00
-const TARGET_UTC = Date.UTC(2026, 3, 30, 5, 0, 0); 
-// (tháng 3 = April)
-
-// ===== UPDATE =====
-
-function updateCountdown() {
-  let nowUTC = new Date().getTime();
-  let diff = TARGET_UTC - nowUTC;
-
-  if (diff <= 0) {
-    document.getElementById("countdown").innerHTML = "00:00:00 💥";
-    document.body.style.background = "black";
-    return;
-  }
-
-  let h = Math.floor(diff / (1000*60*60));
-  let m = Math.floor((diff / (1000*60)) % 60);
-  let s = Math.floor((diff / 1000) % 60);
-
-  let text =
-    String(h).padStart(2,'0') + ":" +
-    String(m).padStart(2,'0') + ":" +
-    String(s).padStart(2,'0');
-
-  let cd = document.getElementById("countdown");
-  cd.innerHTML = text;
-
-  // cảnh báo
-  if (diff < 5*60*1000) {
-    cd.classList.add("warning");
-  }
-
-  // ===== FIRE =====
-  let total = TARGET_UTC - (new Date(2026,3,29,5,0,0).getTime());
-  let progress = 1 - (diff / total);
-  document.getElementById("fire").style.left = (progress * 100) + "%";
-}
-
-setInterval(updateCountdown, 1000);
-updateCountdown();
 
 </script>
 
